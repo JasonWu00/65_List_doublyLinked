@@ -9,6 +9,9 @@ public class Node {
     private Node   nextNode;
     private Node   lastNode;
 
+    private final int NEXT_NODE = 0;
+    private final int LAST_NODE = 1;
+
 
     /**
       Construct an instance
@@ -17,10 +20,18 @@ public class Node {
         this.cargo = cargo;
         // default value is fine for Node.next
     }
-    public Node( Object cargo, Node nextNode) {
+    public Node( Object cargo, Node nextNode, int nextNodeOrLastNode) {
         this( cargo);
-        this.nextNode = nextNode;
-        nextNode.lastNode = this;
+        if (nextNodeOrLastNode == NEXT_NODE) {
+          this.nextNode = nextNode;
+          if (nextNode != null)
+            nextNode.lastNode = this;
+          }
+        else {
+          this.lastNode = nextNode;
+          if (nextNode != null)
+            lastNode.nextNode = this;
+        }
     }
 
     /**
@@ -53,6 +64,12 @@ public class Node {
         Node saveForReturn = this.nextNode;
         this.nextNode = nextNode;
         return saveForReturn;
+    }
+
+    public Node setLastNode(Node lastNode) {
+      Node saveForReturn = this.lastNode;
+      this.lastNode = lastNode;
+      return saveForReturn;
     }
 
     public Object getCargo() {

@@ -4,15 +4,13 @@
 
 public class List_inChainOfNodes{
     private Node headSentinel;
-    private Node endSentinel;
 
 
     /**
       Construct an empty list
      */
     public List_inChainOfNodes() {
-      endSentinel = new Node(null, null);
-      headSentinel = new Node( null, endSentinel);
+      headSentinel = new Node( null, null, 0);
     }
 
     /**
@@ -25,9 +23,13 @@ public class List_inChainOfNodes{
 
     // recursively-called helper
     private int size( Node startingAt) {
+      int output = 0;
+      if (startingAt.getNextNode() != null) {
         Node next = startingAt.getNextNode();
-        if( next == endSentinel) return 0;
-        else return 1+ size( next);
+        if( next == headSentinel) return 0;
+        else output = 1+ size( next);
+      }
+      return output;
     }
 
 
@@ -54,8 +56,14 @@ public class List_inChainOfNodes{
      */
      public boolean addAsHead( Object val) {
         headSentinel.setNextNode(
-          new Node( val, headSentinel.getNextNode()));
+          new Node( val, headSentinel.getNextNode(), 0));
         return true;
+     }
+
+     public boolean addAsEnd (Object val) {
+       headSentinel.setLastNode(
+          new Node(val, headSentinel.getLastNode(), 1));
+       return true;
      }
 
 
@@ -70,20 +78,21 @@ public class List_inChainOfNodes{
         Node node;
         int upTo;  // comma operator precludes declaration in FOR
 
-        if (index < size() / 2) {
+        //if (index < size() ) {
         //iterating from front
         for( upTo = 0   , node = headSentinel
            ; upTo < index
            ; upTo++     , node = node.getNextNode()
            )
            ;  // null loop body since all the action is in the FOR
-         }
+         //}
+         /*
         else {
           for( upTo = size()   , node = headSentinel
              ; upTo > index
              ; upTo--     , node = node.getLastNode()
              );
-        }
+        }*/
         return node;
     }
 
@@ -104,7 +113,10 @@ public class List_inChainOfNodes{
            whether user violated the condition.)
      */
     public Object get( int index ) {
-        return getNode( index).getCargo();
+        if (getNode(index) == headSentinel)
+          return null;
+        else
+          return getNode( index).getCargo();
     }
 
 
@@ -117,7 +129,6 @@ public class List_inChainOfNodes{
     public Object set( int index, Object newValue ) {
         return getNode( index).setCargo( newValue);
     }
-
 
     /**
       Insert @value at position @index in this list.
