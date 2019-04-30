@@ -4,13 +4,15 @@
 
 public class List_inChainOfNodes{
     private Node headSentinel;
+    private Node endSentinel;
 
-     
+
     /**
       Construct an empty list
      */
     public List_inChainOfNodes() {
-        headSentinel = new Node( null, null);
+      endSentinel = new Node(null, null);
+      headSentinel = new Node( null, endSentinel);
     }
 
     /**
@@ -24,7 +26,7 @@ public class List_inChainOfNodes{
     // recursively-called helper
     private int size( Node startingAt) {
         Node next = startingAt.getNextNode();
-        if( next == null) return 0;
+        if( next == endSentinel) return 0;
         else return 1+ size( next);
     }
 
@@ -64,14 +66,24 @@ public class List_inChainOfNodes{
     private Node getNodeBefore( int index) {
         /* iterate through the chain, up to the node
            that holds a reference to the desired node */
-           
+
         Node node;
         int upTo;  // comma operator precludes declaration in FOR
+
+        if (index < size() / 2) {
+        //iterating from front
         for( upTo = 0   , node = headSentinel
            ; upTo < index
            ; upTo++     , node = node.getNextNode()
            )
            ;  // null loop body since all the action is in the FOR
+         }
+        else {
+          for( upTo = size()   , node = headSentinel
+             ; upTo > index
+             ; upTo--     , node = node.getLastNode()
+             );
+        }
         return node;
     }
 

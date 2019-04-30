@@ -7,6 +7,7 @@
 public class Node {
     private Object cargo;
     private Node   nextNode;
+    private Node   lastNode;
 
 
     /**
@@ -19,6 +20,7 @@ public class Node {
     public Node( Object cargo, Node nextNode) {
         this( cargo);
         this.nextNode = nextNode;
+        nextNode.lastNode = this;
     }
 
     /**
@@ -43,16 +45,20 @@ public class Node {
         return nextNode;
     }
 
+    public Node getLastNode() {
+      return lastNode;
+    }
+
     public Node setNextNode( Node nextNode) {
         Node saveForReturn = this.nextNode;
         this.nextNode = nextNode;
         return saveForReturn;
     }
-    
+
     public Object getCargo() {
         return cargo;
     }
-    
+
     public Object setCargo( Object newValue) {
         Object saveForReturn = cargo;
         cargo = newValue;
