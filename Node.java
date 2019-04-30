@@ -37,7 +37,7 @@ public class Node {
     /**
       @return a string representation of this instance
      */
-    public String toString() {
+    /*public String toString() {
         String result =
             cargo.toString()  // polymorphically use appropriately toString!
           + " id " // include a usually-unique identifier for this node
@@ -49,6 +49,26 @@ public class Node {
              result += " [no next]";
         else result += " --> " + nextNode;
         return result;
+    }*/
+
+    /**
+      Demo use of links to previous Nodes.
+
+      @return a string representation of this list,
+              iterating through the list
+              from tail to head.
+      format, using ` as separator
+          [element0`element1`element2`]
+     */
+    public String toString() {
+        String stringRep = "tail-first [";
+
+        for( Node node = headSentinel.getLastNode();
+            node != headSentinel;
+            node = node.getLastNode()
+           )
+            stringRep += node.getCargo() + "`";
+        return stringRep + "]";
     }
 
     // classic accessor and mutator
